@@ -1,7 +1,18 @@
 ### Underscore Strings
 
-Useful Underscore string methods for more readable, human language
+Useful Underscore string methods for more readable, human language:
 
+- [Capitalization](#capitalization)
+- [Cases](#cases)
+- [Tags](#tags)
+- [Lists](#lists)
+- [Hyphenation](#hyphenation)
+- [Quantify](#quantify)
+- [Written Numbers](#written-numbers)
+
+-------
+
+#### Setup
 Do nothing without the presence of Underscore.
 
     return unless _?
@@ -30,6 +41,8 @@ Assuming we are using the English language, we'll declare some numbers
 Declare the mixins we're adding...
 
     mixins =
+
+-------
 
 #### Capitalization
 Capitalize the first letter of a string.
@@ -129,6 +142,7 @@ _.hyphenate("antidisestablishmentarianism") # "antidisest%C2%ADablishment%C2%ADa
         str.replace new RegExp("\\w{#{n}}", "g"), (w) -> w + softHyphen
 
 
+#### Quantify
 Add an "s" to a string when an amount is non-singular, disregarding the
 order of the arguments passsed.
 
