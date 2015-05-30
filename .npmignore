@@ -1,3 +1,4 @@
 test/
 Gruntfile.coffee
 bower.json
+.travis.yml
