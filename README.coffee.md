@@ -14,6 +14,7 @@ front and back end contexts.
 - [Hyphenation](#hyphenation)
 - [Quantify](#quantify)
 - [Written Numbers](#written-numbers)
+- [Language Support](#language-support)
 
 ##### Node
 
@@ -26,6 +27,9 @@ npm install written
 ```
 bower install written
 ```
+
+This readme is also the source code for this module. Each function shows
+examples and the implementation.
 
 -------
 
@@ -46,19 +50,29 @@ This helps to split "cased" words into their constituent parts...
 
       caseSplitter = /[-_\s]|(!?[A-Z][a-z]*)/g
 
-Declare the w we're adding...
+Declare the `written` object...
 
-      written = w =
+      w =
 
 Some style guides prefer numbers under 12 to be written, so we'll include
-some common languages.
+those in some common languages. If more or fewer numbers need to be added, or
+another those from another language, see `setNumbers()`
 
         numbers:
-          "EN": ["one", "two", "three", "four", "five", "six", "seven","eight", "nine", "ten", "eleven", "twelve"]
-          "FR": [{m: "un", f: "une"}, "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze"]
-          "DE": ["eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf"]
-          "IT": [{m: "uno", f: "una"}, "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci", "undici", "dodic"]
-          "ES": [{m: "uno", f: "una"}, "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce"]
+          "EN": ["one", "two", "three", "four", "five", "six", "seven",
+                 "eight", "nine", "ten", "eleven", "twelve"]
+
+          "FR": [{m: "un", f: "une"}, "deux", "trois", "quatre", "cinq",
+                 "six", "sept", "huit", "neuf", "dix", "onze", "douze"]
+
+          "DE": ["eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben",
+                 "acht", "neun", "zehn", "elf", "zwölf"]
+
+          "IT": [{m: "uno", f: "una"}, "due", "tre", "quattro", "cinque",
+                 "sei", "sette", "otto", "nove", "dieci", "undici", "dodic"]
+
+          "ES": [{m: "uno", f: "una"}, "dos", "tres", "cuatro", "cinco",
+                 "seis", "siete", "ocho", "nueve", "diez", "once", "doce"]
 
         noncaps:
           "EN": /^(a|at|as|an|and|be|in|of|or|the|to)$/
@@ -69,6 +83,11 @@ some common languages.
 #### Capitalization
 Capitalize the first letter of a string.
 
+```coffee
+# Examples
+w.capitalize("obviously")                       # Obviously
+```
+
         capitalize: (str) ->
           str.charAt(0).toUpperCase() + str.slice(1)
 
@@ -78,8 +97,8 @@ stored by language code, or by passing a regular expression of your own.
 
 ```coffee
 # Examples
-w.capitalizeAll("this and that") # "This and That"
-w.capitalizeAll("the cat in the hat") # "The Cat in the Hat"
+w.capitalizeAll("this and that")                # This and That
+w.capitalizeAll("the cat in the hat")           # The Cat in the Hat
 ```
 
         capitalizeAll: (str, regEx = w.noncaps["EN"]) ->
@@ -96,7 +115,7 @@ It is used internally for casing and is offered in case of external value.
 
 ```coffee
 # Examples
-w.cleanJoin(["this", null, "that"], " and ") # "this and that"
+w.cleanJoin(["this", null, "that"], " and ")    # "this and that"
 ```
 
         cleanJoin: (arr, glue = "") ->
@@ -107,7 +126,7 @@ Replace all white-space in a string with a single space character
 
 ```coffee
 # Examples
-w.collapse("this     \t\t and \n    that") # "this and that"
+w.collapse("this   \t\t and \n    that")        # this and that
 ```
 
         collapse: (str) ->
@@ -118,10 +137,10 @@ Transform strings between common code cases:
 
 ```coffee
 # Examples
-w.camelCase("some-thing")  # "someThing"
-w.hyphenCase("some_thing") # "some-thing"
-w.snakeCase("someThing")   # "some_thing"
-w.humanCase("fromA_to-Z")  # "from A to Z"
+w.camelCase("some-thing")                       # someThing
+w.hyphenCase("some_thing")                      # some-thing
+w.snakeCase("someThing")                        # some_thing
+w.humanCase("fromA_to-Z")                       # from A to Z
 ```
 
         camelCase: (str) ->
@@ -143,7 +162,8 @@ Enclose a string inside an HTML tag.
 
 ```coffee
 # Examples
-w.wrapInTag("Hello world!", "strong") # "<strong>Hello world!</strong>"
+w.wrapInTag("Hello world!")                     # <span>Hello world!</span>
+w.wrapInTag("Hello world!", "em")               # <em>Hello world!</em>
 ```
 
         wrapInTag: (str, tag = "span") ->
@@ -151,13 +171,26 @@ w.wrapInTag("Hello world!", "strong") # "<strong>Hello world!</strong>"
 
 #### Lists
 Group strings into a grammatically correct list with an arbitrary limit.
+The final example shows all the possible options available.
 
 ```coffee
 # Examples
-w.prettyList(["Ben", "Bob"])                      # "Ben and Bob"
-w.prettyList(["Ben", "Bob", "Bill"])              # "Ben, Bob and Bill"
-w.prettyList(["Ben", "Bob", "Bill", "Max"], 2)    # "Ben, Bob and 2 more"
-w.prettyList(["Ben", "Bob"], 1, {more: "other"})  # "Ben and 1 other"
+w.prettyList(["Ben", "Bob"])                    # Ben and Bob
+w.prettyList(["Ben", "Bob", "Bill"])            # Ben, Bob and Bill
+w.prettyList(["Ben", "Bob", "Bill", "Max"], 2)  # Ben, Bob and 2 more
+w.prettyList(["Ben", "Bob"], 1, more: "other")  # Ben and 1 other
+
+w.prettyList([                                  # Document 1 & two other files
+  {file: "Document 1"},
+  {file: "Document 2"},
+  {file: "Document 3"}
+], 1, {
+  amp: "&"
+  written: true,
+  more: "other file",
+  quantify: true,
+  key: "file"
+})
 ```
 
         prettyList: (arr, max, opts = {}) ->
@@ -185,11 +218,12 @@ w.prettyList(["Ben", "Bob"], 1, {more: "other"})  # "Ben and 1 other"
 
 #### Hyphenation
 Add soft hyphens every `n` characters so that the CSS attribute
-`hyphens: manual` will allow for nice breaks in long strings of w.
+`hyphens: manual` will allow for nice breaks in long strings of text. This is
+especially useful on mobile devices, where long strings can break the layout.
 
 ```coffee
 # Examples
-w.hyphenate("antidisestablishmentarianism") # "antidisest%C2%ADablishment%C2%ADarianism"
+w.hyphenate("antidisestablishmentarianism")     # antidisest%C2%ADablishmen...
 ```
 
         hyphenate: (str = "", n = 10, softHyphen = "\u00AD") ->
@@ -202,10 +236,10 @@ order of the arguments passsed.
 
 ```coffee
 # Examples
-w.quantify("monkey", 1)                     # "1 monkey"
-w.quantify(1, "monkey")                     # "1 monkey"
-w.quantify("monkey", 9, {written: true})    # "nine monkeys"
-w.quantify("person", 9, {plural: "people"}) # "9 people"
+w.quantify("monkey", 1)                         # 1 monkey
+w.quantify(1, "monkey")                         # 1 monkey
+w.quantify("monkey", 9, {written: true})        # nine monkeys
+w.quantify("person", 9, {plural: "people"})     # 9 people
 ```
 
         quantify: (str, n, {numberless, written, lang, plural} = {}) ->
@@ -222,12 +256,12 @@ Convert numbers between one and twelve into their written counter-parts.
 
 ```coffee
 # Examples
-w.writtenNumber(1)                          # "one"
-w.writtenNumber(2, "DE")                    # "zwei"
+w.writtenNumber(1)                              # "one"
+w.writtenNumber(2, "DE")                        # "zwei"
 ```
 
         writtenNumber: (n, lang = "EN", gender = "m") ->
-          if n < 13
+          if (n - 1) < @numbers[lang].length
             num = @numbers[lang][n - 1]
             num[gender] and num[gender] or num
           else
@@ -242,11 +276,12 @@ Set numbers and non-caps words for different languages as appropriate.
         setNonCaps: (regEx, lang) ->
           @noncaps[lang] = regEx
 
-Set up some aliases.
+Set up some aliases...
 
       w.dasherize = w.hyphenCase
       w.numerate  = w.quantify
+      w.titleCase = w.capitalizeAll
 
-Add the mixin object to Underscore.
+.. and return the `written` object.
 
       return w
