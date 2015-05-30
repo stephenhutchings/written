@@ -10,7 +10,7 @@ module.exports = (grunt) ->
     coffee:
       compile:
         files:
-          "lib/written.js": "README.coffee.md"
+          "lib/written.js": "README.md"
 
         options:
           bare: true
