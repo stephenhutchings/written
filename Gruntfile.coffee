@@ -3,7 +3,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-uglify"
   grunt.loadNpmTasks "grunt-contrib-concat"
 
-  config = require("./package.json")
+  config  = require("./package.json")
+  version = grunt.option("ver")
 
   grunt.initConfig
     coffee:
@@ -22,7 +23,7 @@ module.exports = (grunt) ->
     concat:
       options:
         banner:
-          """/* #{config.name} - v#{config.version} - #{config.license} */
+          """/* #{config.name} - v#{version} - #{config.license} */
              /* #{config.description} */
              /* #{config.repository.url} */\n"""
 
