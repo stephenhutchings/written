@@ -79,8 +79,17 @@ another those from another language, see `setNumbers()`
           "SE": [{ett: "ett", en: "en"}, "två", "tre", "fyra", "fem", "sex"
                  "sju", "åtta", "nio", "tio", "elva", "tolv"]
 
+Following the APA style guide (for ease and practicality) conjunctions,
+articles, and short prepositions of less than four letters are will be
+left in lowercase when calling `capitalizeAll()`.
+
         noncaps:
-          "EN": /^(a|at|as|an|and|be|in|of|or|the|to)$/
+          "EN": /^(
+            an|and|as|at|be|but|by|has|in|if|nor|of|
+            off|on|or|out|per|the|to|up|was
+          )$/
+
+
 
 -------
 
