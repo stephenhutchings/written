@@ -58,7 +58,8 @@ Declare the `written` object...
 
 Some style guides prefer numbers under 12 to be written, so we'll include
 those in some common languages. If more or fewer numbers need to be added, or
-another those from another language, see `setNumbers()`
+another those from another language, see `setNumbers()`. For compatibility,
+Swedish uses "m" for co_m_mon, and "n" for _n_euter genders.
 
         numbers:
           "EN": ["one", "two", "three", "four", "five", "six", "seven",
@@ -76,7 +77,7 @@ another those from another language, see `setNumbers()`
           "ES": [{m: "uno", f: "una"}, "dos", "tres", "cuatro", "cinco",
                  "seis", "siete", "ocho", "nueve", "diez", "once", "doce"]
 
-          "SE": [{ett: "ett", en: "en"}, "två", "tre", "fyra", "fem", "sex"
+          "SE": [{m: "ett", n: "en"}, "två", "tre", "fyra", "fem", "sex"
                  "sju", "åtta", "nio", "tio", "elva", "tolv"]
 
 Following the APA style guide (for ease and practicality) conjunctions,
