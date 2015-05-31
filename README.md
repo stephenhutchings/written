@@ -37,6 +37,9 @@ examples and the implementation.
 
 #### Setup
 
+*written* can be used as a module in Node and AMD contexts, and will otherwise
+be made available as a global variable (`window.written`).
+
     ((root, factory) ->
       if typeof define is "function" and define.amd
         define [], factory
@@ -55,10 +58,10 @@ Declare the `written` object...
 
       w =
 
-Some style guides prefer numbers under 12 to be written, so we'll include
-those in some common languages. If more or fewer numbers need to be added, or
-another those from another language, see `setNumbers()`. For compatibility,
-Swedish uses "m" for co_m_mon, and "n" for _n_euter genders.
+Some style guides prefer the numbers 12 and under to be written, so we'll
+include those in some common languages. If more or fewer numbers need to be
+added, or another those from another language, see `setNumbers()`. For
+compatibility, Swedish uses "m" for co**m**mon, and "n" for **n**euter genders.
 
         numbers:
           "EN": ["one", "two", "three", "four", "five", "six", "seven",
