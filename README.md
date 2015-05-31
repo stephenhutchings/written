@@ -49,7 +49,7 @@ examples and the implementation.
 
 This helps to split "cased" words into their constituent parts...
 
-      caseSplitter = /[-_\s]|(!?[A-Z][a-z]*)/g
+      caseSplitter = /[-_\s]+|(!?[A-Z][a-z]*)/g
 
 Declare the `written` object...
 
@@ -155,7 +155,12 @@ w.humanCase("fromA_to-Z")                       # from A to Z
 ```
 
         camelCase: (str) ->
-          str.replace(/[\s_-](\w)/g, (a, w) -> w.toUpperCase())
+          w.cleanJoin(
+            for s, i in str.split(caseSplitter) when s
+              if i is 0 then s else w.capitalize(s)
+          )
+
+          str.replace(/[\s_-]+(\w)/g, (a, w) -> w.toUpperCase())
 
         hyphenCase: (str, leading) ->
           (if leading then "-" else "") +
