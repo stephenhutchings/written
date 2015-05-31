@@ -1,5 +1,7 @@
 ### written
 
+[![Build Status](https://travis-ci.org/stephenhutchings/written.svg)](https://travis-ci.org/stephenhutchings/written)
+
 *written* provides a set of utilities for manipulating text, with a focus on
 providing typographic tools rather than pure string manipulation. It can be
 added as a set of mixins to Underscore or used in it's own right, both in
