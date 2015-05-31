@@ -3,7 +3,7 @@
 #### Install Dependencies
 
 ```
-npm install
+$ npm install
 ```
 
 #### Build
@@ -15,13 +15,13 @@ $ grunt
 
 #### Test
 Test builds using [mocha](http://mochajs.org) via [npm](https://npmjs.com).
-Tests are defined in `tests/test.coffee`.
+Tests are defined in `test/test.coffee`.
 
 ```
-npm test
+$ npm test
 
 # Shorthand for...
-mocha --compilers coffee:coffee-script/register
+$ mocha --compilers coffee:coffee-script/register
 ```
 
 #### Release
@@ -29,7 +29,7 @@ Release with [mversion](https://github.com/mikaelbr/mversion).
 Remember that mversion will build, test, version, push and publish in one step.
 
 ```
-npm install mversion -g
+$ npm install mversion -g
 
-mversion major|minor|patch
+$ mversion major|minor|patch
 ```
