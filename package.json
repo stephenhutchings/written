@@ -1,6 +1,6 @@
 {
   "name": "written",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Written provides a set of utilities for manipulating text, with a focus on providing typographic tools rather than pure string manipulation.",
   "main": "lib/written.js",
   "scripts": {
