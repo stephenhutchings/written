@@ -47,7 +47,6 @@ examples and the implementation.
       return
     ) this, ->
 
-
 This helps to split "cased" words into their constituent parts...
 
       caseSplitter = /[-_\s]|(!?[A-Z][a-z]*)/g
@@ -90,10 +89,7 @@ left in lowercase when calling `capitalizeAll()`.
             off|on|or|out|per|the|to|up|was
           )$/
 
-
-
 -------
-
 
 #### Capitalization
 Capitalize the first letter of a string.
@@ -171,7 +167,6 @@ w.humanCase("fromA_to-Z")                       # from A to Z
         humanCase: (str) ->
           w.cleanJoin(str.split(caseSplitter), " ")
 
-
 #### Tags
 Enclose a string inside an HTML tag.
 
@@ -230,7 +225,6 @@ w.prettyList([                                  # Document 1 & two other files
             .join(", ")
             .concat((if arr.length is 1 then "" else " #{amp} "), arr.slice(-1))
 
-
 #### Hyphenation
 Add soft hyphens every `n` characters so that the CSS attribute
 `hyphens: manual` will allow for nice breaks in long strings of text. This is
@@ -243,7 +237,6 @@ w.hyphenate("antidisestablishmentarianism")     # antidisest%C2%ADablishmen...
 
         hyphenate: (str = "", n = 10, softHyphen = "\u00AD") ->
           str.replace new RegExp("\\w{#{n}}", "g"), (w) -> w + softHyphen
-
 
 #### Quantify
 Add an "s" to a string when an amount is non-singular, disregarding the
