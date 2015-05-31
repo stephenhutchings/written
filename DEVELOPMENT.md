@@ -7,14 +7,14 @@ npm install
 ```
 
 #### Build
-Create builds using [grunt][http://gruntjs.com/].
+Create builds using [grunt](http://gruntjs.com/).
 
 ```
 $ grunt
 ```
 
 #### Test
-Test builds using [mocha][mochajs.org] via [npm][npmjs.com].
+Test builds using [mocha](http://mochajs.org) via [npm](https://npmjs.com).
 Tests are defined in `tests/test.coffee`.
 
 ```
@@ -25,7 +25,7 @@ mocha --compilers coffee:coffee-script/register
 ```
 
 #### Release
-Release with [mversion][https://github.com/mikaelbr/mversion].
+Release with [mversion](https://github.com/mikaelbr/mversion).
 Remember that mversion will build, test, version, push and publish in one step.
 
 ```
