@@ -286,8 +286,9 @@ Set numbers and non-caps words for different languages as appropriate.
 
 Set up some aliases...
 
-      w.dasherize = w.hyphenCase
-      w.numerate  = w.quantify
+      w.dasherize = w.dashify = w.hyphenCase
+      w.slugify   = w.underscore = w.snakeCase
+      w.numerate  = w.count = w.quantify
       w.titleCase = w.capitalizeAll
 
 .. and return the `written` object.

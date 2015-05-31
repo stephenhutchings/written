@@ -96,3 +96,13 @@ describe "written", ->
       assert.equal "True false", do ->
         w.setNonCaps(/^false$/, "custom")
         w.capitalizeAll("true false",  "custom")
+
+  describe "aliases", ->
+    it "should match the behaviour of their counterparts", ->
+      assert.equal(w.dasherize,     w.hyphenCase)
+      assert.equal(w.dashify,       w.hyphenCase)
+      assert.equal(w.slugify,       w.snakeCase)
+      assert.equal(w.underscore,    w.snakeCase)
+      assert.equal(w.numerate,      w.quantify)
+      assert.equal(w.count,         w.quantify)
+      assert.equal(w.titleCase,     w.capitalizeAll)
