@@ -76,6 +76,9 @@ another those from another language, see `setNumbers()`
           "ES": [{m: "uno", f: "una"}, "dos", "tres", "cuatro", "cinco",
                  "seis", "siete", "ocho", "nueve", "diez", "once", "doce"]
 
+          "SE": [{ett: "ett", en: "en"}, "två", "tre", "fyra", "fem", "sex"
+                 "sju", "åtta", "nio", "tio", "elva", "tolv"]
+
         noncaps:
           "EN": /^(a|at|as|an|and|be|in|of|or|the|to)$/
 
