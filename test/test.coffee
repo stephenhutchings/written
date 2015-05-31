@@ -86,3 +86,9 @@ describe "written", ->
       assert.equal "1", do ->
         w.setNumbers(["1"], "key")
         w.writtenNumber(1, "key")
+
+  describe "setNonCaps()", ->
+    it "should set a regular expression to the language dictionary", ->
+      assert.equal "True false", do ->
+        w.setNonCaps(/^false$/, "custom")
+        w.capitalizeAll("true false",  "custom")
