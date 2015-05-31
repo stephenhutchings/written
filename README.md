@@ -84,10 +84,10 @@ articles, and short prepositions of less than four letters are will be
 left in lowercase when calling `capitalizeAll()`.
 
         noncaps:
-          "EN": /^(
+          "EN": ///^(
             an|and|as|at|be|but|by|has|in|if|nor|of|
             off|on|or|out|per|the|to|up|was
-          )$/
+          )$///
 
 -------
 
