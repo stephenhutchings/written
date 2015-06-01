@@ -25,11 +25,9 @@ $ mocha --compilers coffee:coffee-script/register
 ```
 
 #### Release
-Release with [mversion](https://github.com/mikaelbr/mversion).
-Remember that mversion will build, test, version, push and publish in one step.
 
 ```
-$ npm install mversion -g
-
-$ mversion major|minor|patch
+$ grunt release --ver=patch && grunt
+$ git commit -a -m v?.?.? && git tag v?.?.?
+$ git push && git push --tags && npm publish
 ```

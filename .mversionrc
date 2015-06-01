@@ -1,9 +1,0 @@
-{
-  "commitMessage": "Bumped to %s",
-  "scripts": {
-    "preupdate": "echo 'Bumping version'",
-    "precommit": "grunt --ver=%s && npm test",
-    "postcommit": "git push && git push --tags && npm publish",
-    "postupdate": "echo 'Updated to version %s in manifest files'"
-  }
-}
