@@ -3,6 +3,16 @@
   "version": "0.0.4",
   "description": "Written provides a set of utilities for manipulating text, with a focus on providing typographic tools rather than pure string manipulation.",
   "main": "lib/written.js",
+  "keywords": [
+    "pretty",
+    "language",
+    "format",
+    "capitalize",
+    "list",
+    "number",
+    "string",
+    "text"
+  ],
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register"
   },

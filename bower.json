@@ -18,7 +18,17 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "keywords": [
+    "pretty",
+    "language",
+    "format",
+    "capitalize",
+    "list",
+    "number",
+    "string",
+    "text"
+  ],
   "ignore": [
     "test/",
     "Gruntfile.coffee",
