@@ -3,7 +3,7 @@ assert         = require("assert")
 
 w  = require("../lib/written")
 
-for lang in ["DE", "FR", "ES", "IT", "SE"]
+for lang in ["DE", "ES", "FR", "IT", "SE"]
   w.setLanguage(require("../lib/lang/written.#{lang.toLowerCase()}"), lang)
 
 describe "written.de", ->
@@ -11,6 +11,12 @@ describe "written.de", ->
     it "should add a language to the dictionary", ->
       assert.equal("zwei",              w.writtenNumber(2, "DE"))
       assert.equal("eins",              w.writtenNumber(1, "DE"))
+
+describe "written.es", ->
+  describe "setLanguage()", ->
+    it "should add a language to the dictionary", ->
+      assert.equal("dos",               w.writtenNumber(2, "ES"))
+      assert.equal("una",               w.writtenNumber(1, "ES", "f"))
 
 describe "written.fr", ->
   describe "setLanguage()", ->
@@ -20,12 +26,6 @@ describe "written.fr", ->
       assert.equal("10e",               w.ordinal(10, {lang: "FR"}))
       assert.equal("première",          w.ordinal(1,  {lang: "FR", written: true}, "f"))
       assert.equal("Doc1 et deux plus", w.prettyList(["Doc1", "Doc2", "Doc3"], 1, {written: true, amp: "et", lang: "FR", more: "plus"}))
-
-describe "written.es", ->
-  describe "setLanguage()", ->
-    it "should add a language to the dictionary", ->
-      assert.equal("dos",               w.writtenNumber(2, "ES"))
-      assert.equal("una",               w.writtenNumber(1, "ES", "f"))
 
 describe "written.it", ->
   describe "setLanguage()", ->
