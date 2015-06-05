@@ -52,47 +52,45 @@ be made available as a global variable (`window.written`).
       return
     ) this, ->
 
+
 Some style guides prefer the numbers 12 and under to be written, so we'll
-include those in some common languages. If more or fewer numbers need to be
-added, or another those from another language, see `setNumbers()`. For
-compatibility, Swedish uses "m" for co**m**mon, and "n" for **n**euter genders.
-
-
-      numbers =
-        "EN": ["one", "two", "three", "four", "five", "six", "seven",
-               "eight", "nine", "ten", "eleven", "twelve"]
-
-        "FR": [{m: "un", f: "une"}, "deux", "trois", "quatre", "cinq",
-               "six", "sept", "huit", "neuf", "dix", "onze", "douze"]
-
-        "DE": ["eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben",
-               "acht", "neun", "zehn", "elf", "zwölf"]
-
-        "IT": [{m: "uno", f: "una"}, "due", "tre", "quattro", "cinque",
-               "sei", "sette", "otto", "nove", "dieci", "undici", "dodic"]
-
-        "ES": [{m: "uno", f: "una"}, "dos", "tres", "cuatro", "cinco",
-               "seis", "siete", "ocho", "nueve", "diez", "once", "doce"]
-
-        "SE": [{m: "ett", n: "en"}, "två", "tre", "fyra", "fem", "sex"
-               "sju", "åtta", "nio", "tio", "elva", "tolv"]
-
-      ordinals =
-        "EN": ["fir", "seco", "thir", "four", "fif", "six", "seven",
-               "eigh", "nin", "ten", "eleven", "twelf"]
-
+include those in here. If more or fewer numbers need to be added, or
+those from another language, see [Language Support](#language-support).
 
 Following the APA style guide (for ease and practicality) conjunctions,
 articles, and short prepositions of less than four letters are will be
 left in lowercase when calling `capitalizeAll()`.
 
+A rule is needed to determine the correct ordinal for any number. For English,
+we use match in such a way that the first value in the matching array is
+returned, unless it is 11, 12 or 13. We use this number to determine the
+correct ordinal form.
 
-      noncaps =
-        "EN": ///^(
-          an|and|as|at|be|but|by|has|in|if|nor|of|
-          off|on|or|out|per|the|to|up|was
-        )$///
 
+      dictionary =
+        EN:
+          noncaps: ///^(
+                     an|and|as|at|be|but|by|has|in|if|nor|of|
+                     off|on|or|out|per|the|to|up|was
+                   )$///
+
+          cardinals:
+            written: ["one", "two", "three", "four",
+                      "five", "six", "seven", "eight",
+                      "nine", "ten", "eleven", "twelve"]
+
+          ordinals:
+            written: ["first", "second", "third", "fourth",
+                      "fifth", "sixth", "seventh", "eighth",
+                      "ninth", "tenth", "eleventh", "twelfth"]
+
+            rule:    /((1{0,1}[123])|(\d))\b/
+
+            suffixes:
+              "1": "st"
+              "2": "nd"
+              "3": "rd"
+              "n": "th"
 
 -------
 
@@ -120,9 +118,9 @@ w.capitalizeAll("the cat in the hat")             # The Cat in the Hat
 ```
 
 
-      capitalizeAll = (str, regEx = noncaps["EN"]) ->
+      capitalizeAll = (str, regEx = dictionary["EN"].noncaps) ->
         unless toString.call(regEx) is "[object RegExp]"
-          regEx = noncaps[regEx]
+          regEx = dictionary[regEx].noncaps
 
         (for s, i in str.split(/\s/g)
           if i > 0 and regEx.test(s) then s else capitalize(s)
@@ -307,8 +305,7 @@ w.writtenNumber(2, "DE")                          # zwei
 
 
       writtenNumber = (n, lang = "EN", gender = "m") ->
-        if (n - 1) < numbers[lang].length
-          num = numbers[lang][n - 1]
+        if num = dictionary[lang]?.cardinals.written[n - 1]
           num[gender] and num[gender] or num
         else
           n
@@ -352,22 +349,23 @@ w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
 ```
 
 
-      ordinal = (n, {written, wrap, lang} = {}) ->
-        base    = n.toString().match(/((1{0,1}[123])|(\d))\b/)[0]
-        types   =
-          "1": "st"
-          "2": "nd"
-          "3": "rd"
-          "n": "th"
+      ordinal = (n, opts = {}) ->
+        { ordinals } = dictionary[opts.lang or "EN"]
+        base  = n.toString().match(ordinals.rule)[0]
 
-        if written and w = ordinals[lang or "EN"][+n - 1]
+        if opts.written? and w = ordinals.written[+n - 1]
           n = w
 
-        if wrap and not w
-          wrap = "sup" if typeof wrap is "boolean"
-          types[key] = wrapInTag(val, wrap) for key, val of types
+        if opts.wrap and not w
+          opts.wrap = "sup" if typeof opts.wrap is "boolean"
+          suffixes = {}
+          for key, val of ordinals.suffixes
+            suffixes[key] = wrapInTag(val, opts.wrap)
 
-        if types[base]? then n + types[base] else n + types.n
+        else
+          suffixes = ordinals.suffixes
+
+        w or (if suffixes[base]? then n + suffixes[base] else n + suffixes.n)
 
 
 #### Marks
@@ -401,11 +399,8 @@ w.glyph("!")                                      # &#33;
 Set numbers and non-caps words for different languages as appropriate.
 
 
-      setNumbers = (arr, lang) ->
-        numbers[lang] = arr
-
-      setNonCaps = (regEx, lang) ->
-        noncaps[lang] = regEx
+      setLanguage = (object, lang) ->
+        dictionary[lang] = object
 
 
 #### Aliases
@@ -430,8 +425,7 @@ Pack up the `written` object (with some aliases...)
         prettyList: prettyList
         quantify: quantify
         quote: quote
-        setNonCaps: setNonCaps
-        setNumbers: setNumbers
+        setLanguage: setLanguage
         slugify: snakeCase
         snakeCase: snakeCase
         titleCase: capitalizeAll

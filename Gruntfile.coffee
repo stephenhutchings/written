@@ -8,9 +8,17 @@ module.exports = (grunt) ->
   version = grunt.option("ver")
 
   paths =
-    src: "README.md"
-    lib: "lib/written.js"
-    min: "lib/written.min.js"
+    written:
+      src: "README.md"
+      lib: "lib/written.js"
+      min: "lib/written.min.js"
+
+    language:
+      cwd:     "lang/"
+      min:     ".min.js"
+      lib:     ".js"
+      extDot:  "last"
+      dest:    "lib/lang"
 
   grunt.initConfig
     version:
@@ -20,18 +28,28 @@ module.exports = (grunt) ->
     coffee:
       compile:
         files: [{
-          src:  paths.src
-          dest: paths.lib
+          src:  paths.written.src
+          dest: paths.written.lib
         }]
 
         options:
           bare: true
 
+      lang:
+        files: [{
+          expand:  true
+          cwd:     paths.language.cwd
+          src:     ["*.coffee"]
+          ext:     paths.language.lib
+          extDot:  paths.language.extDot
+          dest:    paths.language.dest
+        }]
+
     uglify:
       compress:
         files: [{
-          src:  paths.lib
-          dest: paths.min
+          src:  paths.written.lib
+          dest: paths.written.min
         }]
 
     concat:
@@ -42,12 +60,20 @@ module.exports = (grunt) ->
              /* #{config.repository.url} */\n"""
 
       lib:
-        src: [paths.lib]
-        dest: paths.lib
+        src: [paths.written.lib]
+        dest: paths.written.lib
 
       min:
-        src: [paths.min]
-        dest: paths.min
+        src: [paths.written.min]
+        dest: paths.written.min
+
+      lang:
+        files: [{
+          expand:  true
+          cwd:     paths.language.dest
+          src:     ["*.js"]
+          dest:    paths.language.dest
+        }]
 
   grunt.registerTask "default", [
     "coffee"

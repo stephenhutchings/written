@@ -64,7 +64,6 @@ describe "written", ->
       assert.equal("Ben and 1 other",           w.prettyList(["Ben", "Bob"], 1, {more: "other"}))
       assert.equal("Ben and one more",          w.prettyList(["Ben", "Bob"], 1, {written: true}))
       assert.equal("Doc1 and two other files",  w.prettyList(["Doc1", "Doc2", "Doc3"], 1, {written: true, more: "other file", quantify: true}))
-      assert.equal("Doc1 et deux plus",         w.prettyList(["Doc1", "Doc2", "Doc3"], 1, {written: true, amp: "et", lang: "FR", more: "plus"}))
       assert.equal("Doc1 and 1 more",           w.prettyList([{file: "Doc1"}, {file: "Doc2"}], 1, {key: "file"}))
 
   describe "hypenate()", ->
@@ -84,8 +83,6 @@ describe "written", ->
   describe "writtenNumber()", ->
     it "should convert a number between 1 and 12 to it's written counterpart", ->
       assert.equal("one",           w.writtenNumber(1))
-      assert.equal("zwei",          w.writtenNumber(2, "DE"))
-      assert.equal("una",           w.writtenNumber(1, "ES", "f"))
 
   describe "ordinals()", ->
     it "should convert a number from it's cardinal to ordinal equivalent", ->
@@ -102,17 +99,11 @@ describe "written", ->
       assert.equal("¡Gol!",           w.quote("Gol", "!"))
       assert.equal("¿Cómo estás?",    w.quote("Cómo estás", "?"))
 
-  describe "setNumbers()", ->
-    it "should set an array of numbers to the language dictionary", ->
+  describe "setLanguage()", ->
+    it "should add a language to the dictionary", ->
       assert.equal "1", do ->
-        w.setNumbers(["1"], "key")
+        w.setLanguage({cardinals: written: ["1"]}, "key")
         w.writtenNumber(1, "key")
-
-  describe "setNonCaps()", ->
-    it "should set a regular expression to the language dictionary", ->
-      assert.equal "True false", do ->
-        w.setNonCaps(/^false$/, "custom")
-        w.capitalizeAll("true false",  "custom")
 
   describe "aliases", ->
     it "should match the behaviour of their counterparts", ->
