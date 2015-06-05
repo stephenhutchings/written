@@ -16,8 +16,10 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "DEVELOPMENT.md",
     "test",
-    "tests"
+    "tests",
+    "lang/"
   ],
   "keywords": [
     "pretty",
