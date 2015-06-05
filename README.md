@@ -398,7 +398,8 @@ w.glyph("!")                                      # &#33;
 Set cardinal and ordinal numbers and non-caps words for different languages as
 appropriate. Please note that only partial support for French, German, Italian,
 Spanish and Swedish is currently implemented. If using in the browser, ensure
-that the document's charset is set to UTF-8.
+that the document's charset is set to UTF-8. *Pull requests which extend
+language support are encouraged.*
 
 
       setLanguage = (object, lang) ->
