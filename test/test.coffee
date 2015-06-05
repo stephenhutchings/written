@@ -78,12 +78,29 @@ describe "written", ->
       assert.equal("1 monkey",      w.quantify(1, "monkey"))
       assert.equal("monkey",        w.quantify("monkey", 1, numberless: true))
       assert.equal("nine monkeys",  w.quantify("monkey", 9, written: true))
+      assert.equal("1 person",      w.quantify("person", 1, plural: "people"))
+      assert.equal("9 people",      w.quantify("person", 9, plural: "people"))
 
   describe "writtenNumber()", ->
     it "should convert a number between 1 and 12 to it's written counterpart", ->
       assert.equal("one",           w.writtenNumber(1))
       assert.equal("zwei",          w.writtenNumber(2, "DE"))
       assert.equal("una",           w.writtenNumber(1, "ES", "f"))
+
+  describe "ordinals()", ->
+    it "should convert a number from it's cardinal to ordinal equivalent", ->
+      assert.equal("1st",             w.ordinal(1))
+      assert.equal("second",          w.ordinal(2, {written: true}))
+      assert.equal("3<sup>rd</sup>",  w.ordinal(3, {wrap: true}))
+      assert.equal("4<em>th</em>",    w.ordinal(4, {wrap: "em"}))
+
+  describe "quote()", ->
+    it "should wrap a string in single, double quotes or guillemets (angle quotes).", ->
+      assert.equal("‘pastry chef’",   w.quote("pastry chef", "s"))
+      assert.equal("“cats cradle”",   w.quote("cats cradle"))
+      assert.equal("«so chic»",       w.quote("so chic", "g"))
+      assert.equal("¡Gol!",           w.quote("Gol", "!"))
+      assert.equal("¿Cómo estás?",    w.quote("Cómo estás", "?"))
 
   describe "setNumbers()", ->
     it "should set an array of numbers to the language dictionary", ->

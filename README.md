@@ -289,11 +289,11 @@ w.quantify("person", 9, {plural: "people"})       # 9 people
       quantify = (str, n, {numberless, written, lang, plural} = {}) ->
         [n, str] = [str, n] unless typeof str is "string"
 
-        s = if n is 1 then "" else "s"
+        s = if n is 1 then str else (plural or "#{str}s")
         n = writtenNumber(n, lang) if written
         n = if numberless then "" else "#{n} "
 
-        n + (plural or str + s)
+        n + s
 
 
 #### Written Numbers
@@ -364,7 +364,7 @@ w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
           n = w
 
         if wrap and not w
-          wrap = "sup" if wrap is "boolean"
+          wrap = "sup" if typeof wrap is "boolean"
           types[key] = wrapInTag(val, wrap) for key, val of types
 
         if types[base]? then n + types[base] else n + types.n
