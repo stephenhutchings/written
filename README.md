@@ -349,23 +349,22 @@ w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
 ```
 
 
-      ordinal = (n, opts = {}) ->
-        { ordinals } = dictionary[opts.lang or "EN"]
-        base  = n.toString().match(ordinals.rule)[0]
+      ordinal = (n, opts = {}, gender = "m") ->
+        { suffixes, rule, written } = dictionary[opts.lang or "EN"].ordinals
+        base   = n.toString().match(rule)[0]
 
-        if opts.written? and w = ordinals.written[+n - 1]
-          n = w
-
-        if opts.wrap and not w
-          opts.wrap = "sup" if typeof opts.wrap is "boolean"
-          suffixes = {}
-          for key, val of ordinals.suffixes
-            suffixes[key] = wrapInTag(val, opts.wrap)
+        if opts.written? and w = written[+n - 1]
+          w[gender] or w
 
         else
-          suffixes = ordinals.suffixes
+          suffix = suffixes[base] or suffixes.n
+          suffix = suffix[gender] or suffix
 
-        w or (if suffixes[base]? then n + suffixes[base] else n + suffixes.n)
+          if opts.wrap and not w
+            opts.wrap = "sup" if typeof opts.wrap is "boolean"
+            suffix = wrapInTag(suffix, opts.wrap)
+
+          n + suffix
 
 
 #### Marks
@@ -382,21 +381,24 @@ w.glyph("!")                                      # &#33;
       fromTo = (x, y) ->
         Array.apply(0, length: y - x + 1).map((e, i) -> i + x)
 
-      glyphs = (marks = {}) ->
+      glyphs = (glyphs = {}) ->
         for code in fromTo(161, 255)
           .concat(fromTo(338, 402))
           .concat(fromTo(8211, 8230))
           .concat([8240, 8364, 8482])
-            marks[code] = String.fromCharCode(code)
+            glyphs[code] = String.fromCharCode(code)
 
-        return marks
+        glyphs
 
       glyph = (c) ->
         enclose "&#", c.charCodeAt(0), ";"
 
 
 #### Language Support
-Set numbers and non-caps words for different languages as appropriate.
+Set cardinal and ordinal numbers and non-caps words for different languages as
+appropriate. Please note that only partial support for French, German, Italian,
+Spanish and Swedish is currently implemented. If using in the browser, ensure
+that the document's charset is set to UTF-8.
 
 
       setLanguage = (object, lang) ->
