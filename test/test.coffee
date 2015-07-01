@@ -4,6 +4,15 @@ assert         = require("assert")
 w = require("../lib/written")
 
 describe "written", ->
+
+  describe "cleanJoin()", ->
+    it "should join an array of strings will falsy values removed", ->
+      assert.equal("this and that", w.cleanJoin(["this", null, "that"], " and "))
+
+  describe "enclose()", ->
+    it "should enclose a string within another", ->
+      assert.equal("'string'", w.enclose("'", "string"))
+
   describe "capitalize()", ->
     it "should capitalize the first letter of a string", ->
       assert.equal("Hello world!",  w.capitalize("hello world!"))

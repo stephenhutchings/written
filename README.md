@@ -486,10 +486,12 @@ Pack up the `written` object (with some aliases...)
         camelCase: camelCase
         capitalize: capitalize
         capitalizeAll: capitalizeAll
+        cleanJoin: cleanJoin
         collapse: collapse
         count: quantify
         dasherize: hyphenCase
         dashify: hyphenCase
+        enclose: enclose
         glyph: glyph
         glyphs: glyphs
         humanCase: humanCase
