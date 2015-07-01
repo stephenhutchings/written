@@ -319,6 +319,7 @@ Examples:
 ```coffee
 w.quote("pastry chef", "s")                       # ‘pastry chef’
 w.quote("cats cradle")                            # “cats cradle”
+w.quote("tres chic", "a")                         # «tres chic»
 w.quote("Gol", "!")                               # ¡Gol!
 w.quote("Cómo estás", "?")                        # ¿Cómo estás?
 ```
