@@ -18,6 +18,7 @@ front and back end contexts.
 - [Written Numbers](#written-numbers)
 - [Quotes](#quotes)
 - [Ordinals](#ordinals)
+- [Numbers](#numbers)
 - [Glyphs](#glyphs)
 - [Language Support](#language-support)
 
@@ -384,6 +385,60 @@ w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
           n + suffix
 
 
+#### Numbers
+Format a number in various ways and parse one from a string.
+
+Examples:
+```coffee
+w.prettyNumber(1000)                              # 1,000
+w.prettyNumber(10.5, 2)                           # 10.50
+w.prettyNumber(9999, " ", 2, ",")                 # 9 999,00
+
+w.prettyPrice(4)                                  # $4.00
+w.prettyPrice(1200, "£")                          # £1,200.00
+w.prettyPrice(                                    # €4<sup>00</sup>
+  4,
+  {
+      currency: "€",
+      wrap: "sup"
+  }
+)
+
+w.parseNumber(1000)                               # 1000
+w.parseNumber("1,000.00")                         # 1000
+w.parseNumber("99%")                              # 0.99
+w.parseNumber("some 44,000 participants")         # 44000
+```
+
+
+      prettyNumber = (n, delimiter = ",", decimals = 0, dot = ".") ->
+        decimals = delimiter if typeof delimiter is "number"
+        n = parseNumber(n)
+        n = n.toFixed(decimals) if decimals > 0
+        n = n.toString().replace(".", dot) if dot
+        n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, delimiter)
+
+      prettyPrice = (n, currency = "$") ->
+        if typeof currency is "object"
+          {currency, wrap, decimals, delimiter, dot} = currency
+
+        decimals ?= 2
+        dot ?= "."
+
+        n = prettyNumber(n, delimiter, decimals, dot)
+
+        if wrap
+          [integer, fraction] = n.split(dot)
+          n = integer + wrapInTag(fraction, wrap)
+
+        currency + n
+
+      parseNumber = (n) ->
+        if typeof n is "string"
+          n = n.replace(/[^\d\.]+/g, "") / if n.slice(-1) is "%" then 100 else 1
+
+        if n <= Infinity then n else -1
+
 #### Glyphs
 Provide quick access to different typographic glyphs without the need commit them
 to memory or look at a reference table.
@@ -442,7 +497,10 @@ Pack up the `written` object (with some aliases...)
         hyphenCase: hyphenCase
         numerate: quantify
         ordinal: ordinal
+        parseNumber: parseNumber
         prettyList: prettyList
+        prettyNumber: prettyNumber
+        prettyPrice: prettyPrice
         quantify: quantify
         quote: quote
         setLanguage: setLanguage

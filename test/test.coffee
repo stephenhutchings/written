@@ -73,6 +73,25 @@ describe "written", ->
       assert.equal("Doc1 and two other files",  w.prettyList(["Doc1", "Doc2", "Doc3"], 1, {written: true, more: "other file", quantify: true}))
       assert.equal("Doc1 and 1 more",           w.prettyList([{file: "Doc1"}, {file: "Doc2"}], 1, {key: "file"}))
 
+  describe "prettyNumber()", ->
+    it "should format a number into a correctly formatted string", ->
+     assert.equal("1,000",                       w.prettyNumber(1000))
+     assert.equal("10.50",                       w.prettyNumber(10.5, 2))
+     assert.equal("9 999,00",                    w.prettyNumber(9999, " ", 2, ","))
+
+  describe "prettyPrice()", ->
+    it "should format a number as a correctly formatted price", ->
+     assert.equal("$4.00",                       w.prettyPrice(4))
+     assert.equal("£4.00",                       w.prettyPrice(4, "£"))
+     assert.equal("€4<sup>00</sup>",             w.prettyPrice(4, {currency: "€", wrap: "sup"}))
+
+   describe "parseNumber()", ->
+    it "should convert a string to it's numerical equivalent", ->
+      assert.equal(1000,             w.parseNumber(1000))
+      assert.equal(1000,             w.parseNumber("1,000.00"))
+      assert.equal(0.99,             w.parseNumber("99%"))
+      assert.equal(44000,            w.parseNumber("some 44,000 participants"))
+
   describe "hypenate()", ->
     it "should add invisible soft hyphens to a string every `n` characters", ->
       assert.equal("antidisest­ablishment­arianism", w.hyphenate("antidisestablishmentarianism"))
