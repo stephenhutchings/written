@@ -18,6 +18,7 @@ front and back end contexts.
 - [Written Numbers](#written-numbers)
 - [Quotes](#quotes)
 - [Ordinals](#ordinals)
+- [Glyphs](#glyphs)
 - [Language Support](#language-support)
 
 ##### Node
@@ -129,8 +130,8 @@ w.capitalizeAll("the cat in the hat")             # The Cat in the Hat
 
 #### Utilities
 `enclose` wraps a string within two other strings, repeating the first if needs
-be. `cleanJoin` joins an array of words with falsy, non-string values removed with
-some glue. Both are used internally but are offered in case of their
+be. `cleanJoin` joins an array of words with falsy, non-string values removed
+with some glue. Both are used internally but are offered in case of their
 external value.
 
 Examples:
@@ -367,13 +368,13 @@ w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
           n + suffix
 
 
-#### Marks
-Provide quick access to different typographic marks without the need commit them
+#### Glyphs
+Provide quick access to different typographic glyphs without the need commit them
 to memory or look at a reference table.
 
 Examples:
 ```coffee
-w.glyphs()                                        # Create a map of ASCII glyphs
+w.glyphs()                                        # Create map of ASCII glyphs
 w.glyph("!")                                      # &#33;
 ```
 
@@ -418,11 +419,11 @@ Pack up the `written` object (with some aliases...)
         count: quantify
         dasherize: hyphenCase
         dashify: hyphenCase
+        glyph: glyph
+        glyphs: glyphs
         humanCase: humanCase
         hyphenate: hyphenate
         hyphenCase: hyphenCase
-        glyph: glyph
-        glyphs: glyphs
         numerate: quantify
         ordinal: ordinal
         prettyList: prettyList
