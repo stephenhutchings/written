@@ -203,11 +203,26 @@ Examples:
 ```coffee
 w.wrapInTag("Hello world!")                       # <span>Hello world!</span>
 w.wrapInTag("Hello world!", "em")                 # <em>Hello world!</em>
+w.wrapInTag(                                      # <a href="/url" class="b" disabled="disabled">Link</a>
+  "Link",
+  "a",
+  {
+    href: "/url",
+    class: ["b"],
+    disabled: true
+  }
+)
 ```
 
 
-      wrapInTag = (str, tag = "span") ->
-        enclose "<#{tag}>", str, "</#{tag}>"
+      wrapInTag = (str, tag = "span", attributes = {}) ->
+        attrs =
+          for key, val of attributes when val
+            val = key if typeof val is "boolean"
+            val = val.join(" ") if typeof val.join is "function"
+            " #{key}=\"#{val}\""
+
+        enclose "<#{tag}#{attrs.join("")}>", str, "</#{tag}>"
 
 
 #### Lists

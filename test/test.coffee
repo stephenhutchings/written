@@ -55,6 +55,13 @@ describe "written", ->
     it "should wrap a string inside an HTML tag", ->
       assert.equal("<span>Hello world!</span>",     w.wrapInTag("Hello world!"))
       assert.equal("<strong>Hello world!</strong>", w.wrapInTag("Hello world!", "strong"))
+      assert.equal("<a href=\"/url\" class=\"b\" disabled=\"disabled\">Link</a>",
+        w.wrapInTag "Link", "a",
+          href: "/url"
+          class: ["b"]
+          disabled: true
+      )
+
 
   describe "prettyList()", ->
     it "should format an array into a grammatically correct string", ->
