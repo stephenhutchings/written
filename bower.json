@@ -19,7 +19,7 @@
     "DEVELOPMENT.md",
     "test",
     "tests",
-    "lang/"
+    "lang/*"
   ],
   "keywords": [
     "pretty",
