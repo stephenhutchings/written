@@ -121,7 +121,7 @@ describe "written", ->
     it "should wrap a string in single, double quotes or guillemets (angle quotes).", ->
       assert.equal("‘pastry chef’",   w.quote("pastry chef", "s"))
       assert.equal("“cats cradle”",   w.quote("cats cradle"))
-      assert.equal("«so chic»",       w.quote("so chic", "g"))
+      assert.equal("«tres chic»",     w.quote("tres chic", "g"))
       assert.equal("¡Gol!",           w.quote("Gol", "!"))
       assert.equal("¿Cómo estás?",    w.quote("Cómo estás", "?"))
 
