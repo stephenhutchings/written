@@ -60,7 +60,7 @@ include those in here. If more or fewer numbers need to be added, or
 those from another language, see [Language Support](#language-support).
 
 Following the APA style guide (for ease and practicality) conjunctions,
-articles, and short prepositions of less than four letters are will be
+articles, and short prepositions of less than four letters will be
 left in lowercase when calling `capitalizeAll()`.
 
 A rule is needed to determine the correct ordinal for any number. For English,
@@ -285,7 +285,8 @@ w.hyphenate("antidisestablishmentarianism")       # antidisest%C2%ADablishm...
 
 
       hyphenate = (str = "", n = 10, softHyphen = "\u00AD") ->
-        str.replace new RegExp("\\w{#{n}}", "g"), (w) -> w + softHyphen
+        str.replace new RegExp("(\\w{#{n - 1}})(\\w)", "g"), (w, a, b) ->
+          a + softHyphen + b
 
 
 #### Quantify
@@ -342,17 +343,20 @@ w.quote("Cómo estás", "?")                        # ¿Cómo estás?
 
 
       quote = (str, type) ->
-        switch type
-          when "s", "single"
-            enclose "‘", str, "’"
-          when "a", "angle", "g", "guillemets"
-            enclose "«", str, "»"
-          when "!"
-            enclose "¡", str, "!"
-          when "?"
-            enclose "¿", str, "?"
-          else
-            enclose "“", str, "”"
+        [a, z] =
+          switch type
+            when "s", "single"
+              ["‘", "’"]
+            when "a", "angle", "g", "guillemets"
+              ["«", "»"]
+            when "!"
+              ["¡", "!"]
+            when "?"
+              ["¿", "?"]
+            else
+              ["“", "”"]
+
+        enclose a, str, z
 
 
 #### Ordinals

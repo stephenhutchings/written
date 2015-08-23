@@ -103,8 +103,9 @@ describe "written", ->
 
   describe "hypenate()", ->
     it "should add invisible soft hyphens to a string every `n` characters", ->
-      assert.equal("antidisest­ablishment­arianism", w.hyphenate("antidisestablishmentarianism"))
-      assert.equal("antidisest%C2%ADablishment%C2%ADarianism", encodeURIComponent(w.hyphenate("antidisestablishmentarianism")))
+      assert.equal("antidises­tablishmen­tarianism", w.hyphenate("antidisestablishmentarianism"))
+      assert.equal("s­pa­ce­d p­hr­as­e", w.hyphenate("spaced phrase", 2))
+      assert.equal("antidises%C2%ADtablishmen%C2%ADtarianism", encodeURIComponent(w.hyphenate("antidisestablishmentarianism")))
 
   describe "quantify()", ->
     it "should add an \"s\" where appropriate to a number and a string", ->
