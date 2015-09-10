@@ -422,10 +422,11 @@ w.parseNumber("some 44,000 participants")         # 44000
         n = n.toString().replace(".", dot) if dot
         n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, delimiter)
 
-      prettyPrice = (n, currency = "$") ->
+      prettyPrice = (n, currency) ->
         if typeof currency is "object"
           {currency, wrap, decimals, delimiter, dot} = currency
 
+        currency ?= "$"
         decimals ?= 2
         dot ?= "."
 

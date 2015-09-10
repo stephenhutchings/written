@@ -93,6 +93,7 @@ describe "written", ->
      assert.equal("$4.00",                       w.prettyPrice(4))
      assert.equal("£4.00",                       w.prettyPrice(4, "£"))
      assert.equal("€4<sup>00</sup>",             w.prettyPrice(4, {currency: "€", wrap: "sup"}))
+     assert.equal("$99<sup>00</sup>",            w.prettyPrice(99, {wrap: "sup"}))
 
    describe "parseNumber()", ->
     it "should convert a string to it's numerical equivalent", ->
