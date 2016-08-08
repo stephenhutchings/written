@@ -101,7 +101,7 @@ Capitalize the first letter of a string.
 
 Examples:
 ```coffee
-w.capitalize("obviously")                         # Obviously
+w.capitalize("obviously")                        # Obviously
 ```
 
 
@@ -115,8 +115,8 @@ stored by language code, or by passing a regular expression of your own.
 
 Examples:
 ```coffee
-w.capitalizeAll("this and that")                  # This and That
-w.capitalizeAll("the cat in the hat")             # The Cat in the Hat
+w.capitalizeAll("this and that")                 # This and That
+w.capitalizeAll("the cat in the hat")            # The Cat in the Hat
 ```
 
 
@@ -137,8 +137,8 @@ external value.
 
 Examples:
 ```coffee
-w.enclose("'", "string")                          # 'string'
-w.cleanJoin(["this", null, "that"], " and ")      # this and that
+w.enclose("'", "string")                         # 'string'
+w.cleanJoin(["this", null, "that"], " and ")     # this and that
 ```
 
 
@@ -154,7 +154,7 @@ Replace all white-space in a string with a single space character
 
 Examples:
 ```coffee
-w.collapse("this   \t\t and \n    that")          # this and that
+w.collapse("this   \t\t and \n    that")         # this and that
 ```
 
 
@@ -167,10 +167,10 @@ Transform strings between common code cases.
 
 Examples:
 ```coffee
-w.camelCase("some-thing")                         # someThing
-w.hyphenCase("some_thing")                        # some-thing
-w.snakeCase("someThing")                          # some_thing
-w.humanCase("fromA_to-Z")                         # from A to Z
+w.camelCase("some-thing")                        # someThing
+w.hyphenCase("some_thing")                       # some-thing
+w.snakeCase("someThing")                         # some_thing
+w.humanCase("fromA_to-Z")                        # from A to Z
 ```
 
 This helps to split "cased" words into their constituent parts...
@@ -202,9 +202,9 @@ Enclose a string inside an HTML tag.
 
 Examples:
 ```coffee
-w.wrapInTag("Hello world!")                       # <span>Hello world!</span>
-w.wrapInTag("Hello world!", "em")                 # <em>Hello world!</em>
-w.wrapInTag(                                      # <a href="/url" class="b" disabled="disabled">Link</a>
+w.wrapInTag("Hello world!")                      # <span>Hello world!</span>
+w.wrapInTag("Hello world!", "em")                # <em>Hello world!</em>
+w.wrapInTag(                                     # <a href="/url" class="b" disabled="disabled">Link</a>
   "Link",
   "a",
   {
@@ -232,11 +232,11 @@ The final example shows all the possible options available.
 
 Examples:
 ```coffee
-w.prettyList(["Ben", "Bob"])                      # Ben and Bob
-w.prettyList(["Ben", "Bob", "Bill"])              # Ben, Bob and Bill
-w.prettyList(["Ben", "Bob", "Bill", "Max"], 2)    # Ben, Bob and 2 more
-w.prettyList(["Ben", "Bob"], 1, {more: "other"})  # Ben and 1 other
-w.prettyList([                                    # Document 1 & two other files
+w.prettyList(["Ben", "Bob"])                     # Ben and Bob
+w.prettyList(["Ben", "Bob", "Bill"])             # Ben, Bob and Bill
+w.prettyList(["Ben", "Bob", "Bill", "Max"], 2)   # Ben, Bob and 2 more
+w.prettyList(["Ben", "Bob"], 1, {more: "other"}) # Ben and 1 other
+w.prettyList([                                   # Document 1 & two other files
   {file: "Document 1"},
   {file: "Document 2"},
   {file: "Document 3"}
@@ -280,7 +280,7 @@ especially useful on mobile devices, where long strings can break the layout.
 
 Examples:
 ```coffee
-w.hyphenate("antidisestablishmentarianism")       # antidisest%C2%ADablishm...
+w.hyphenate("antidisestablishmentarianism")      # antidisest%C2%ADablishm...
 ```
 
 
@@ -291,14 +291,15 @@ w.hyphenate("antidisestablishmentarianism")       # antidisest%C2%ADablishm...
 
 #### Quantify
 Add an "s" to a string when an amount is non-singular, disregarding the
-order of the arguments passsed.
+order of the arguments passsed. If an array or collection is passed, it’s
+length will be used as the numerical input.
 
 Examples:
 ```coffee
-w.quantify("monkey", 1)                           # 1 monkey
-w.quantify(1, "monkey")                           # 1 monkey
-w.quantify("monkey", 9, {written: true})          # nine monkeys
-w.quantify("person", 9, {plural: "people"})       # 9 people
+w.quantify("monkey", 1)                          # 1 monkey
+w.quantify(1, "monkey")                          # 1 monkey
+w.quantify("monkey", 9, {written: true})         # nine monkeys
+w.quantify("person", 9, {plural: "people"})      # 9 people
 ```
 
 
@@ -317,8 +318,8 @@ Convert numbers between one and twelve into their written counter-parts.
 
 Examples:
 ```coffee
-w.writtenNumber(1)                                # one
-w.writtenNumber(2, "DE")                          # zwei
+w.writtenNumber(1)                               # one
+w.writtenNumber(2, "DE")                         # zwei
 ```
 
 
@@ -334,11 +335,11 @@ Wrap a string in single or double quotes or guillemets (angle quotes).
 
 Examples:
 ```coffee
-w.quote("pastry chef", "s")                       # ‘pastry chef’
-w.quote("cats cradle")                            # “cats cradle”
-w.quote("tres chic", "a")                         # «tres chic»
-w.quote("Gol", "!")                               # ¡Gol!
-w.quote("Cómo estás", "?")                        # ¿Cómo estás?
+w.quote("pastry chef", "s")                      # ‘pastry chef’
+w.quote("cats cradle")                           # “cats cradle”
+w.quote("tres chic", "a")                        # «tres chic»
+w.quote("Gol", "!")                              # ¡Gol!
+w.quote("Cómo estás", "?")                       # ¿Cómo estás?
 ```
 
 
@@ -364,10 +365,10 @@ Convert a number from it's cardinal to ordinal equivalent.
 
 Examples:
 ```coffee
-w.ordinal(1)                                      # 1st
-w.ordinal(2, {written: true})                     # second
-w.ordinal(3, {wrap: true})                        # 3<sup>rd</sup>
-w.ordinal(4, {wrap: "em"})                        # 4<em>th</em>
+w.ordinal(1)                                     # 1st
+w.ordinal(2, {written: true})                    # second
+w.ordinal(3, {wrap: true})                       # 3<sup>rd</sup>
+w.ordinal(4, {wrap: "em"})                       # 4<em>th</em>
 ```
 
 
@@ -394,13 +395,13 @@ Format a number in various ways and parse one from a string.
 
 Examples:
 ```coffee
-w.prettyNumber(1000)                              # 1,000
-w.prettyNumber(10.5, 2)                           # 10.50
-w.prettyNumber(9999, " ", 2, ",")                 # 9 999,00
+w.prettyNumber(1000)                             # 1,000
+w.prettyNumber(10.5, 2)                          # 10.50
+w.prettyNumber(9999, " ", 2, ",")                # 9 999,00
 
-w.prettyPrice(4)                                  # $4.00
-w.prettyPrice(1200, "£")                          # £1,200.00
-w.prettyPrice(                                    # €4<sup>00</sup>
+w.prettyPrice(4)                                 # $4.00
+w.prettyPrice(1200, "£")                         # £1,200.00
+w.prettyPrice(                                   # €4<sup>00</sup>
   4,
   {
       currency: "€",
@@ -408,10 +409,10 @@ w.prettyPrice(                                    # €4<sup>00</sup>
   }
 )
 
-w.parseNumber(1000)                               # 1000
-w.parseNumber("1,000.00")                         # 1000
-w.parseNumber("99%")                              # 0.99
-w.parseNumber("some 44,000 participants")         # 44000
+w.parseNumber(1000)                              # 1000
+w.parseNumber("1,000.00")                        # 1000
+w.parseNumber("99%")                             # 0.99
+w.parseNumber("some 44,000 participants")        # 44000
 ```
 
 
@@ -445,13 +446,13 @@ w.parseNumber("some 44,000 participants")         # 44000
         if n <= Infinity then n else -1
 
 #### Glyphs
-Provide quick access to different typographic glyphs without the need commit them
-to memory or look at a reference table.
+Provide quick access to different typographic glyphs without the need commit
+them to memory or look at a reference table.
 
 Examples:
 ```coffee
-w.glyphs()                                        # Create map of ASCII glyphs
-w.glyph("!")                                      # &#33;
+w.glyphs()                                       # Create map of ASCII glyphs
+w.glyph("!")                                     # &#33;
 ```
 
 
