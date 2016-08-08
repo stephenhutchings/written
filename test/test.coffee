@@ -116,6 +116,7 @@ describe "written", ->
       assert.equal("nine monkeys",  w.quantify("monkey", 9, written: true))
       assert.equal("1 person",      w.quantify("person", 1, plural: "people"))
       assert.equal("9 people",      w.quantify("person", 9, plural: "people"))
+      assert.equal("3 numbers",     w.quantify([1, 2, 3], "number"))
 
   describe "writtenNumber()", ->
     it "should convert a number between 1 and 12 to it's written counterpart", ->

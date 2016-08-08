@@ -300,12 +300,14 @@ w.quantify("monkey", 1)                          # 1 monkey
 w.quantify(1, "monkey")                          # 1 monkey
 w.quantify("monkey", 9, {written: true})         # nine monkeys
 w.quantify("person", 9, {plural: "people"})      # 9 people
+w.quantify([1, 2, 3], "number")                  # 3 numbers
 ```
 
 
       quantify = (str, n, {numberless, written, lang, plural} = {}) ->
         [n, str] = [str, n] unless typeof str is "string"
 
+        n = n.length ? n
         s = if n is 1 then str else (plural or "#{str}s")
         n = writtenNumber(n, lang) if written
         n = if numberless then "" else "#{n} "
