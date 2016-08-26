@@ -121,7 +121,7 @@ w.capitalizeAll("the cat in the hat")            # The Cat in the Hat
 
 
       capitalizeAll = (str, regEx = dictionary["EN"].noncaps) ->
-        unless toString.call(regEx) is "[object RegExp]"
+        unless Object.prototype.toString.call(regEx) is "[object RegExp]"
           regEx = dictionary[regEx].noncaps
 
         (for s, i in str.split(/\s/g)
