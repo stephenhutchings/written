@@ -90,6 +90,12 @@ describe "written", ->
       assert.equal("0.3333333333333333",        w.prettyNumber(1 / 3))
       assert.equal("-1,000.33",                 w.prettyNumber(-1000.33))
 
+  describe "prettyNumber()", ->
+    it "should format a number into a correctly formatted string", ->
+      assert.equal("50%",                       w.prettyPercent(0.5))
+      assert.equal("25%",                       w.prettyPercent(1, 4))
+      assert.equal("33.33%",                    w.prettyPercent(1, 3, 2))
+
   describe "prettyPrice()", ->
     it "should format a number as a correctly formatted price", ->
       assert.equal("$4.00",                     w.prettyPrice(4))

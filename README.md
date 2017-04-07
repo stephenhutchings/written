@@ -411,10 +411,15 @@ w.prettyPrice(                                   # €4<sup>00</sup>
   }
 )
 
+w.prettyPercent(0.5)                             # 50%
+w.prettyPercent(1, 4)                            # 25%
+w.prettyPercent(1, 3, 2)                         # 33.33%
+
 w.parseNumber(1000)                              # 1000
 w.parseNumber("1,000.00")                        # 1000
 w.parseNumber("99%")                             # 0.99
 w.parseNumber("some 44,000 participants")        # 44000
+
 ```
 
 
@@ -444,11 +449,16 @@ w.parseNumber("some 44,000 participants")        # 44000
 
         currency + n
 
+      prettyPercent = (numerator = 0, denominator = 1, decimals = 0) ->
+        percent = (numerator / denominator * 100) or 0
+        "#{percent.toFixed(decimals)}%"
+
       parseNumber = (n) ->
         if typeof n is "string"
           n = n.replace(/[^\d\.]+/g, "") / if n.slice(-1) is "%" then 100 else 1
 
         if n <= Infinity then n else -1
+
 
 #### Glyphs
 Provide quick access to different typographic glyphs without the need commit
@@ -514,6 +524,7 @@ Pack up the `written` object (with some aliases...)
         prettyList: prettyList
         prettyNumber: prettyNumber
         prettyPrice: prettyPrice
+        prettyPercent: prettyPercent
         quantify: quantify
         quote: quote
         setLanguage: setLanguage
