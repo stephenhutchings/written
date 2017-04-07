@@ -423,7 +423,10 @@ w.parseNumber("some 44,000 participants")        # 44000
         n = parseNumber(n)
         n = n.toFixed(decimals) if decimals > 0
         n = n.toString().replace(".", dot) if dot
-        n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, delimiter)
+        [ int, frac ] = n.toString().split(dot)
+        [ int.replace(/\B(?=(\d{3})+(?!\d))/g, delimiter), frac ]
+          .filter((e) -> e?)
+          .join(dot)
 
       prettyPrice = (n, currency) ->
         if typeof currency is "object"

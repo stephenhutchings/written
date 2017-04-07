@@ -84,16 +84,18 @@ describe "written", ->
 
   describe "prettyNumber()", ->
     it "should format a number into a correctly formatted string", ->
-     assert.equal("1,000",                       w.prettyNumber(1000))
-     assert.equal("10.50",                       w.prettyNumber(10.5, 2))
-     assert.equal("9 999,00",                    w.prettyNumber(9999, " ", 2, ","))
+      assert.equal("1,000",                     w.prettyNumber(1000))
+      assert.equal("10.50",                     w.prettyNumber(10.5, 2))
+      assert.equal("9 999,00",                  w.prettyNumber(9999, " ", 2, ","))
+      assert.equal("0.3333333333333333",        w.prettyNumber(1 / 3))
+      assert.equal("-1,000.33",                 w.prettyNumber(-1000.33))
 
   describe "prettyPrice()", ->
     it "should format a number as a correctly formatted price", ->
-     assert.equal("$4.00",                       w.prettyPrice(4))
-     assert.equal("£4.00",                       w.prettyPrice(4, "£"))
-     assert.equal("€4<sup>00</sup>",             w.prettyPrice(4, {currency: "€", wrap: "sup"}))
-     assert.equal("$99<sup>00</sup>",            w.prettyPrice(99, {wrap: "sup"}))
+      assert.equal("$4.00",                     w.prettyPrice(4))
+      assert.equal("£4.00",                     w.prettyPrice(4, "£"))
+      assert.equal("€4<sup>00</sup>",           w.prettyPrice(4, {currency: "€", wrap: "sup"}))
+      assert.equal("$99<sup>00</sup>",          w.prettyPrice(99, {wrap: "sup"}))
 
    describe "parseNumber()", ->
     it "should convert a string to it's numerical equivalent", ->
