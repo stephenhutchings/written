@@ -115,6 +115,7 @@ describe "written", ->
       assert.equal("antidises­tablishmen­tarianism", w.hyphenate("antidisestablishmentarianism"))
       assert.equal("s­pa­ce­d p­hr­as­e", w.hyphenate("spaced phrase", 2))
       assert.equal("antidises%C2%ADtablishmen%C2%ADtarianism", encodeURIComponent(w.hyphenate("antidisestablishmentarianism")))
+      assert.equal("an <a href=\'http://www.longishurl.com\'>an­cho­r</a>", w.hyphenate("an <a href='http://www.longishurl.com'>anchor</a>", 3))
 
   describe "quantify()", ->
     it "should add an \"s\" where appropriate to a number and a string", ->

@@ -285,8 +285,9 @@ w.hyphenate("antidisestablishmentarianism")      # antidisest%C2%ADablishm...
 
 
       hyphenate = (str = "", n = 10, softHyphen = "\u00AD") ->
-        str.replace new RegExp("(\\w{#{n - 1}})(\\w)", "g"), (w, a, b) ->
-          a + softHyphen + b
+        str.replace /(^|[^>])+(?=$|\<)/g, (sub) ->
+          sub.replace new RegExp("(\\w{#{n - 1}})(\\w)", "g"), (w, a, b) ->
+            a + softHyphen + b
 
 
 #### Quantify
