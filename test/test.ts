@@ -151,6 +151,10 @@ describe("written", () => {
     it("should format a number as a correctly formatted price", () => {
       equals("$4.00", w.prettyPrice(4));
       equals("£4.00", w.prettyPrice(4, "£"));
+      equals("4.00£", w.prettyPrice(4, {
+        currency: "£",
+        front: false,
+      }));
       equals(
         "€4<sup>00</sup>",
         w.prettyPrice(4, {
