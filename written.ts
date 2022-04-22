@@ -1,15 +1,29 @@
 /**
  * #### Rules
  */
+
+/** A number can either be a string or a map of genders and the corresponding string */
 type Written = string | Record<string, string>;
+
+/**
+ * A language is described in the object
+ * None of the properties are required and will be gracefully replaced by the english counterparts
+ */
 export interface Language {
+  /** A regex that matches words which should not be capitalised */
   noncaps: RegExp;
+  /** Cardinal letters */
   cardinals: {
+    /** An array of ordinal letters */
     written: Written[];
   };
+  /** Ordinal letters */
   ordinals: {
+    /** An array of ordinal letters */
     written: Written[];
+    /** A regex that matches numbers that can be converted to ordinals */
     rule: RegExp;
+    /** suffixes to ordinals (such as (1)st) */
     suffixes: Record<string, Written>;
   };
 }
@@ -66,8 +80,10 @@ const dictionary: Record<string, Language> = {
 
 /**
  * Capitalize the first letter of a string
- * @param str
- * @returns
+ * @example
+ * w.capitalize("obviously");                    // Obviously
+ * @param str the string to capitalize
+ * @returns the capitalized string
  */
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -76,6 +92,12 @@ export const capitalize = (str: string) =>
  * Capitalize all words in a string apart from some common lower case words.
  * This can be tested with the internal noncaps regular expression, which are
  * stored by language code, or by passing a regular expression of your own.
+ * @example
+ * w.capitalizeAll("this and that");             // This And That
+ * @param str The string to capitalize
+ * @param init Regex that matches words which should not be capitalised or a
+ * language code
+ * @returns 
  */
 export const capitalizeAll = (
   str: string,
@@ -99,65 +121,84 @@ export const capitalizeAll = (
     .join(" ");
 };
 
-/**
- * #### Utilities
- */
+// Utilities
 
+/**
+ * Wraps a string within two other strings, repeating the first if it needs be
+ * @param a The string to wrap with
+ * @param b The string to wrap
+ * @param c The string to wrap with at the end (if provided)
+ * @returns wrapped string
+ */
 export const enclose = (a: string, b: string, c?: string) =>
   `${a}${b}${c || a}`;
 
+/**
+ * Joins an array of words with falsy, non-string values removed with some glue.
+ * @param arr The array of words to join
+ * @param glue The glue to join the words with
+ * @returns The joined string
+ */
 export const cleanJoin = function (arr: Array<string | null>, glue = "") {
   return arr
     .filter((string) => (string && typeof string === "string"))
     .join(glue);
 };
 
+/**
+ * Replace all white-space in a string with a single space character
+ * @param str The string to remove whitespace from
+ * @returns The string with whitespace removed
+ */
 export const collapse = (str: string) => str.replace(/\s+/g, " ");
+
+// cases
 
 const caseSplitter = /[-_\s]+|(!?[A-Z][a-z]*)/g;
 
+/**
+ * Converts a string to camel case (pascal case)
+ * @param str The string to convert
+ * @returns The string in camel case
+ */
 export const camelCase = (str: string) => {
-  // cleanJoin(
-  //   str
-  //     .split(caseSplitter)
-  //     .filter((part) => !!part)
-  //     .map((part, index) => {
-  //       if (!part) return;
-  //       if (index === 0) {
-  //         return part;
-  //       } else {
-  //         return capitalize(part);
-  //       }
-  //     }),
-  // );
   return str.replace(/[\s_-]+(\w)/g, (_a, w) => w.toUpperCase());
 };
 
+/**
+ * Converts a string to hyphen case (with hyphens/dashes between words)
+ * @param str The string to convert
+ * @param leading Whether to add a hyphen as the first letter
+ * @returns The string in hyphen case
+ */
 export const hyphenCase = (str: string, leading?: boolean) =>
   (leading ? "-" : "") +
   cleanJoin(str.split(caseSplitter), "-").toLowerCase();
 
+/**
+ * Converts a string to snake case (with underscores)
+ * @param str The string to convert
+ * @returns The string in snake case
+ */
 export const snakeCase = (str: string) =>
   cleanJoin(str.split(caseSplitter), "_").toLowerCase();
 
+/**
+ * Converts a string to human case (separated by white space)
+ * @param str The string to convert
+ * @returns The string in human case
+ */
 export const humanCase = (str: string) =>
   cleanJoin(str.split(caseSplitter), " ");
 
 /**
- * @example
- * wrapInTag(
-  "Link",
-  "a",
-  {
-    href: "/url",
-    class: ["b"],
-    disabled: true
-  }
-)
- * @param str
- * @param tag
- * @param attributes
- * @returns
+ * Enclose a string inside an HTML tag.
+ * @param str The string to wrap
+ * @param tag The tag to wrap the string with
+ * @param attributes The attributes to add to the tag
+ * attributes is an object whose values can either be strings, booleans or an
+ * array of strings eg. `{ class: ["foo", "bar"], id: "baz", hidden: true }`
+ * @returns string wrapped in tag with attributes
  */
 export const wrapInTag = (
   str: string,
@@ -174,19 +215,32 @@ export const wrapInTag = (
   return enclose(`<${tag}${attrs.join("")}>`, str, `</${tag}>`);
 };
 
-/**
- * Lists
- */
+// Lists
+
 interface PrettyListOptions {
+  /** The string to use for "more" */
   more?: string;
+  /** The string used to join items (ampersand) */
   amp?: string;
+  /** The accessor used to access values when the provided value is an array */
   key?: string;
+  /** Which tag to use to wrap the items with */
   wrap?: string;
+  /** Whether to pluralize the items */
   quantify?: boolean;
+  /** Whether to write the remaining items in words */
   written?: boolean;
+  /** The language to use */
   lang?: string;
 }
 
+/**
+ * Pretty-print a list of items.
+ * @param arr The array of items to pretty print
+ * @param max The maximum number of items to show
+ * @param opts The options to use
+ * @returns The pretty printed list
+ */
 export const prettyList = (
   arr: unknown[],
   max?: number,
@@ -228,10 +282,17 @@ export const prettyList = (
     .concat(arr.length === 1 ? "" : ` ${amp} `, ...arr.slice(-1) as string[]);
 };
 
-/**
- * Hyphenation
- */
+// hyphenation
 
+/**
+ * Add soft hyphens every `n` characters so that the CSS attribute
+ * `hyphens: manual` will allow for nice breaks in long strings of text. This is
+ * especially useful on mobile devices, where long strings can break the layout.
+ * @param str The string to hyphenate
+ * @param n The number of characters after which a hyphen is added
+ * @param softHyphen Which hyphen to use (default is soft hyphen)
+ * @returns The hyphenated string
+ */
 export const hyphenate = (str: string, n = 10, softHyphen = "\u00AD"): string =>
   str
     .replace(/(^|[^>])+(?=$|\<)/g, (sub) =>
@@ -240,16 +301,30 @@ export const hyphenate = (str: string, n = 10, softHyphen = "\u00AD"): string =>
         (_w, a, b) => a + softHyphen + b,
       ));
 
-/**
- * Quantify
- */
+// quantify
 
 interface QuantifyOptions {
+  /** Whether to display the number in front of the word (default true) */
   numberless?: boolean;
+  /** Whether to write the number as a word instead of digits (default false) */
   written?: boolean;
+  /** The language to use */
   lang?: "EN";
+  /** The plural of the word to use (instead of adding an `s`) */
   plural?: string;
 }
+
+/**
+ * Add an "s" to a string when an amount is non-singular, disregarding the order of
+ * the arguments passsed. If an array or collection is passed, it’s length will be
+ * used as the numerical input.
+ * @param first The number of items or an array of items (the length of which
+ * is used)
+ * @param second The name of items
+ * **NOTE:** The first arguement can be interchanged with the second one
+ * @param options The options to use
+ * @returns A string depicting the items and their number
+ */
 export const quantify = (
   first: string | number | Array<unknown>,
   second: string | number | Array<unknown>,
@@ -285,8 +360,14 @@ export const quantify = (
   return strn + s;
 };
 
+// Written numbers
+
 /**
- * Written numbers
+ * Convert numbers between one and twelve into their written counter-parts.
+ * @param n The number
+ * @param lang The language to use
+ * @param gender The required gender of the word
+ * @returns written counterpart of a number
  */
 export const writtenNumber = (n: number, lang = "EN", gender = "m"): string => {
   const num = dictionary[lang]?.cardinals.written[n - 1];
@@ -303,9 +384,7 @@ export const writtenNumber = (n: number, lang = "EN", gender = "m"): string => {
   }
 };
 
-/**
- * Quotes
- */
+// quotes
 type Quotes =
   | "s"
   | "single"
@@ -317,6 +396,13 @@ type Quotes =
   | "?"
   | "q"
   | string;
+
+/**
+ * Wrap a string in single or double quotes or guillemets (angle quotes).
+ * @param str The string to quote
+ * @param type The type of quotes to use
+ * @returns The quoted string
+ */
 export const quote = (str: string, type?: Quotes) => {
   let a: string, z: string;
   switch (type) {
@@ -343,14 +429,24 @@ export const quote = (str: string, type?: Quotes) => {
   return enclose(a, str, z);
 };
 
-/**
- * Ordinals
- */
+// ordinals
+
 interface OrdinalOptions {
+  /** Whether to use the written form of the number (default false) */
   written?: boolean;
+  /** Wrap the suffix in a tag (when true, tag is `sup`) (default false) */
   wrap?: boolean | string;
+  /** The language to use */
   lang?: "EN";
 }
+
+/**
+ * Convert a number from it's cardinal to ordinal equivalent.
+ * @param n The number
+ * @param opts The options to use
+ * @param gender The required gender of the written number
+ * @returns The ordinal form of a cardinal number
+ */
 export const ordinal = (
   n: number,
   opts: OrdinalOptions = {},
@@ -381,8 +477,16 @@ export const ordinal = (
   }
 };
 
+// numbers
+
 /**
- * Numbers
+ * Pretty print a number
+ * @param n The number
+ * @param delimiter The delimiter to use after every 3 digits (thousand) or the
+ * number of digits after the decimal points
+ * @param decimals The number of digits after the decimal point
+ * @param dot The decimal point to use
+ * @returns The pretty printed number
  */
 export const prettyNumber = (
   n: number,
@@ -405,11 +509,17 @@ export const prettyNumber = (
 };
 
 interface Currency {
+  /** The symbok of the currency */
   currency?: string;
+  /** The tag to wrap the currency in */
   wrap?: string;
+  /** The number of digits after the decimal point */
   decimals?: number;
+  /** The delimiter to use after every 3 digits (thousand) */
   delimiter?: string;
+  /** The decimal point to use */
   dot?: string;
+  /** Whether to show the currency sign at the beginning of number (default true) */
   front?: boolean;
 }
 export const prettyPrice = (n: number, currency?: string | Currency) => {
@@ -441,11 +551,23 @@ export const prettyPrice = (n: number, currency?: string | Currency) => {
   }
 };
 
+/**
+ * Pretty print a percentage
+ * @param numerator The numerator of the percentage / The value
+ * @param denominator The denominator of the percentage / The max value
+ * @param decimals The number of digits after the decimal point (default 0)
+ * @returns The pretty printed percentage
+ */
 export const prettyPercent = (numerator = 0, denominator = 1, decimals = 0) => {
   const percent = (numerator / denominator * 100) || 0;
   return `${percent.toFixed(decimals)}%`;
 };
 
+/**
+ * Extract a number from a string (or number)
+ * @param n The string/number to extract the number from
+ * @returns The extracted number
+ */
 export const parseNumber = (n: number | string) => {
   if (typeof n === "string") {
     n = parseFloat(n.replace(/[^\d\.]+/g, "")) /
@@ -458,15 +580,19 @@ export const parseNumber = (n: number | string) => {
   }
 };
 
-/**
- * Glyphs
- */
+// glyphs
+
 const fromTo = (x: number, y: number) =>
   new Array(y - x + 1).fill(0)
     // Array
     //   .apply(0, { length: y - x + 1 })
     .map((_e, i) => i + x);
 
+/**
+ * Provide quick access to different typographic glyphs without the need commit
+ * them to memory or look at a reference table.
+ * @returns a map of glyphs
+ */
 export const glyphs = (): Record<string, string> =>
   Object.fromEntries(
     [
@@ -479,11 +605,23 @@ export const glyphs = (): Record<string, string> =>
       .map((code) => [code, String.fromCharCode(code)]),
   );
 
+/**
+ * Get the code point of a certain character
+ * @param c the character
+ * @returns the code point of the character eg: &#33;
+ */
 export const glyph = (c: string) =>
   enclose("&#", c.charCodeAt(0).toString(), ";");
 
+// language support
+
 /**
- * Language support
+ * Set cardinal and ordinal numbers and non-caps words for different languages as
+appropriate. Please note that only partial support for French, German, Italian,
+Spanish and Swedish is currently implemented.
+ * @param object The language dictionary
+ * @param lang The language code used to reference this language dictionary
+ * @returns The language dictionary
  */
 export const setLanguage = (object: Partial<Language>, lang: string) =>
   dictionary[lang] = { ...dictionary.EN, ...object };
