@@ -133,7 +133,7 @@ export const camelCase = (str: string) => {
   return str.replace(/[\s_-]+(\w)/g, (_a, w) => w.toUpperCase());
 };
 
-export const hyphenCase = (str: string, leading?: string) =>
+export const hyphenCase = (str: string, leading?: boolean) =>
   (leading ? "-" : "") +
   cleanJoin(str.split(caseSplitter), "-").toLowerCase();
 
@@ -256,10 +256,16 @@ export const quantify = (
   options: QuantifyOptions = {},
 ): string => {
   let str: string, n: number;
-  if (typeof first === "string" && (typeof second === "number" || Array.isArray(second))) {
+  if (
+    typeof first === "string" &&
+    (typeof second === "number" || Array.isArray(second))
+  ) {
     str = first;
     n = Array.isArray(second) ? second.length : second;
-  } else if ((typeof first === "number" || Array.isArray(first)) && typeof second === "string") {
+  } else if (
+    (typeof first === "number" || Array.isArray(first)) &&
+    typeof second === "string"
+  ) {
     str = second;
     n = Array.isArray(first) ? first.length : first;
   } else {
@@ -278,7 +284,6 @@ export const quantify = (
 
   return strn + s;
 };
-export const count = quantify;
 
 /**
  * Written numbers
@@ -400,7 +405,7 @@ export const prettyNumber = (
 };
 
 interface Currency {
-  currency: string;
+  currency?: string;
   wrap?: string;
   decimals?: number;
   delimiter?: string;
@@ -411,10 +416,11 @@ export const prettyPrice = (n: number, currency?: string | Currency) => {
   let wrap: string | undefined,
     decimals: number | undefined,
     delimiter: string | undefined,
-    dot = '.',
+    dot = ".",
     front = true;
   if (typeof currency === "object") {
-    ({ currency = '$', wrap, decimals, delimiter, dot = '.', front = true } = currency);
+    ({ currency = "$", wrap, decimals, delimiter, dot = ".", front = true } =
+      currency);
   }
 
   if (!currency) currency = "$";
@@ -481,3 +487,13 @@ export const glyph = (c: string) =>
  */
 export const setLanguage = (object: Partial<Language>, lang: string) =>
   dictionary[lang] = { ...dictionary.EN, ...object };
+
+
+// Aliases
+export const dasherize = hyphenCase;
+export const dashify = hyphenCase;
+export const slugify = snakeCase;
+export const underscore = snakeCase;
+export const numerate = quantify;
+export const count = quantify;
+export const titleCase = capitalizeAll;
