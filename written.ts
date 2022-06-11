@@ -85,7 +85,7 @@ const dictionary: Record<string, Language> = {
  * @param str the string to capitalize
  * @returns the capitalized string
  */
-export const capitalize = (str: string) =>
+export const capitalize = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 /**
@@ -102,7 +102,7 @@ export const capitalize = (str: string) =>
 export const capitalizeAll = (
   str: string,
   init: RegExp | "EN" = dictionary["EN"].noncaps,
-) => {
+): string => {
   let regEx: RegExp;
   if (!(init instanceof RegExp)) {
     regEx = dictionary[init].noncaps;
@@ -130,7 +130,7 @@ export const capitalizeAll = (
  * @param c The string to wrap with at the end (if provided)
  * @returns wrapped string
  */
-export const enclose = (a: string, b: string, c?: string) =>
+export const enclose = (a: string, b: string, c?: string): string =>
   `${a}${b}${c || a}`;
 
 /**
@@ -139,7 +139,7 @@ export const enclose = (a: string, b: string, c?: string) =>
  * @param glue The glue to join the words with
  * @returns The joined string
  */
-export const cleanJoin = function (arr: Array<string | null>, glue = "") {
+export const cleanJoin = function (arr: Array<string | null>, glue = ""): string {
   return arr
     .filter((string) => (string && typeof string === "string"))
     .join(glue);
@@ -150,7 +150,7 @@ export const cleanJoin = function (arr: Array<string | null>, glue = "") {
  * @param str The string to remove whitespace from
  * @returns The string with whitespace removed
  */
-export const collapse = (str: string) => str.replace(/\s+/g, " ");
+export const collapse = (str: string): string => str.replace(/\s+/g, " ");
 
 // cases
 
@@ -161,7 +161,7 @@ const caseSplitter = /[-_\s]+|(!?[A-Z][a-z]*)/g;
  * @param str The string to convert
  * @returns The string in camel case
  */
-export const camelCase = (str: string) => {
+export const camelCase = (str: string): string => {
   return str.replace(/[\s_-]+(\w)/g, (_a, w) => w.toUpperCase());
 };
 
@@ -171,7 +171,7 @@ export const camelCase = (str: string) => {
  * @param leading Whether to add a hyphen as the first letter
  * @returns The string in hyphen case
  */
-export const hyphenCase = (str: string, leading?: boolean) =>
+export const hyphenCase = (str: string, leading?: boolean): string =>
   (leading ? "-" : "") +
   cleanJoin(str.split(caseSplitter), "-").toLowerCase();
 
@@ -180,7 +180,7 @@ export const hyphenCase = (str: string, leading?: boolean) =>
  * @param str The string to convert
  * @returns The string in snake case
  */
-export const snakeCase = (str: string) =>
+export const snakeCase = (str: string): string =>
   cleanJoin(str.split(caseSplitter), "_").toLowerCase();
 
 /**
@@ -188,7 +188,7 @@ export const snakeCase = (str: string) =>
  * @param str The string to convert
  * @returns The string in human case
  */
-export const humanCase = (str: string) =>
+export const humanCase = (str: string): string =>
   cleanJoin(str.split(caseSplitter), " ");
 
 /**
@@ -204,7 +204,7 @@ export const wrapInTag = (
   str: string,
   tag = "span",
   attributes: Record<string, string | boolean | Array<string>> = {},
-) => {
+): string => {
   const attrs = Object.entries(attributes)
     .map(([key, val]) => {
       if (typeof val === "boolean") val = key;
@@ -245,7 +245,7 @@ export const prettyList = (
   arr: unknown[],
   max?: number,
   opts: PrettyListOptions = {},
-) => {
+): string => {
   let more = opts.more || "more";
   const amp = opts.amp || "and";
 
@@ -403,7 +403,7 @@ type Quotes =
  * @param type The type of quotes to use
  * @returns The quoted string
  */
-export const quote = (str: string, type?: Quotes) => {
+export const quote = (str: string, type?: Quotes): string => {
   let a: string, z: string;
   switch (type) {
     case "s":
@@ -522,7 +522,7 @@ interface Currency {
   /** Whether to show the currency sign at the beginning of number (default true) */
   front?: boolean;
 }
-export const prettyPrice = (n: number, currency?: string | Currency) => {
+export const prettyPrice = (n: number, currency?: string | Currency): string => {
   let wrap: string | undefined,
     decimals: number | undefined,
     delimiter: string | undefined,
@@ -558,7 +558,7 @@ export const prettyPrice = (n: number, currency?: string | Currency) => {
  * @param decimals The number of digits after the decimal point (default 0)
  * @returns The pretty printed percentage
  */
-export const prettyPercent = (numerator = 0, denominator = 1, decimals = 0) => {
+export const prettyPercent = (numerator = 0, denominator = 1, decimals = 0): string => {
   const percent = (numerator / denominator * 100) || 0;
   return `${percent.toFixed(decimals)}%`;
 };
@@ -568,7 +568,7 @@ export const prettyPercent = (numerator = 0, denominator = 1, decimals = 0) => {
  * @param n The string/number to extract the number from
  * @returns The extracted number
  */
-export const parseNumber = (n: number | string) => {
+export const parseNumber = (n: number | string): number => {
   if (typeof n === "string") {
     n = parseFloat(n.replace(/[^\d\.]+/g, "")) /
       (n.slice(-1) === "%" ? 100 : 1);
@@ -582,7 +582,7 @@ export const parseNumber = (n: number | string) => {
 
 // glyphs
 
-const fromTo = (x: number, y: number) =>
+const fromTo = (x: number, y: number): number[] =>
   new Array(y - x + 1).fill(0)
     // Array
     //   .apply(0, { length: y - x + 1 })
@@ -610,7 +610,7 @@ export const glyphs = (): Record<string, string> =>
  * @param c the character
  * @returns the code point of the character eg: &#33;
  */
-export const glyph = (c: string) =>
+export const glyph = (c: string): string =>
   enclose("&#", c.charCodeAt(0).toString(), ";");
 
 // language support
@@ -618,7 +618,7 @@ export const glyph = (c: string) =>
 /**
  * Set cardinal and ordinal numbers and non-caps words for different languages as
 appropriate. Please note that only partial support for French, German, Italian,
-Spanish and Swedish is currently implemented.
+Spanish and Swedish is currently implemented. PRs are welcome.
  * @param object The language dictionary
  * @param lang The language code used to reference this language dictionary
  * @returns The language dictionary
