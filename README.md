@@ -301,22 +301,21 @@ import * as DE from "https://deno.land/x/written/lang/written.de.ts";
 
 written.setLanguage(DE.dico, DE.code);
 
-// then use it like so
-w.writtenNumber(2, "DE");                        // zwei
+// now all your operations will be based on the DE locale.
+w.writtenNumber(1);                              // eins
+
+// you can also override the set locale:
+w.writtenNumber(2, "EN");                        // two
 ```
 
 #### Aliases
 
 Pack up the `written` object (with some aliases...)
 
-```json
-{
-  "count": quantify
-  "dasherize": hyphenCase
-  "dashify": hyphenCase
-  "numerate": quantify
-  "slugify": snakeCase
-  "titleCase": capitalizeAll
-  "underscore": snakeCase
-}
-```
+* `dasherize` -> `hyphenCase`
+* `dashify` -> `hyphenCase`
+* `slugify` -> `snakeCase`
+* `underscore` -> `snakeCase`
+* `numerate` -> `quantify`
+* `count` -> `quantify`
+* `titleCase` -> `capitalizeAll`

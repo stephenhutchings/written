@@ -6,8 +6,8 @@
 type Written = string | Record<string, string>;
 
 /**
- * A language is described in the object
- * None of the properties are required and will be gracefully replaced by the english counterparts
+ * A language is described in the object.
+ * None of the properties are required and will be gracefully replaced by their english counterparts
  */
 export interface Language {
   /** A regex that matches words which should not be capitalised */
@@ -97,7 +97,7 @@ export const capitalize = (str: string) =>
  * @param str The string to capitalize
  * @param init Regex that matches words which should not be capitalised or a
  * language code
- * @returns 
+ * @returns
  */
 export const capitalizeAll = (
   str: string,
@@ -628,10 +628,17 @@ export const setLanguage = (object: Partial<Language>, lang: string) =>
 
 
 // Aliases
+/** Alias for `hyphenCase` */
 export const dasherize = hyphenCase;
+/** Alias for `hyphenCase` */
 export const dashify = hyphenCase;
+/** Alias for `snakeCase` */
 export const slugify = snakeCase;
+/** Alias for `snakeCase` */
 export const underscore = snakeCase;
+/** Alias for `quantify` */
 export const numerate = quantify;
+/** Alias for `quantify` */
 export const count = quantify;
+/** Alias for `capitalizeAll` */
 export const titleCase = capitalizeAll;
