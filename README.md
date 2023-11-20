@@ -424,10 +424,10 @@ w.parseNumber("some 44,000 participants")        # 44000
 ```
 
 
-      prettyNumber = (n, delimiter = ",", decimals = 0, dot = ".") ->
+      prettyNumber = (n, delimiter = ",", decimals = -1, dot = ".") ->
         decimals = delimiter if typeof delimiter is "number"
         n = parseNumber(n)
-        n = n.toFixed(decimals) if decimals > 0
+        n = n.toFixed(decimals) if decimals >= 0
         n = n.toString().replace(".", dot) if dot
         [ int, frac ] = n.toString().split(dot)
         [ int.replace(/\B(?=(\d{3})+(?!\d))/g, delimiter), frac ]
